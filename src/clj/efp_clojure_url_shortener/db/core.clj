@@ -4,7 +4,8 @@
               [monger.operators :refer :all]
               [mount.core :refer [defstate]]
               [efp-clojure-url-shortener.config :refer [env]]
-              [clojure.set :refer [rename-keys]]))
+              [clojure.set :refer [rename-keys]])
+  (:import org.bson.types.ObjectId))
 
 (defstate db*
   :start (-> env :database-url mg/connect-via-uri)
@@ -22,3 +23,6 @@
 
 (defn find-url [url]
   (format-url (mc/find-one-as-map db "urls" {:url url})))
+
+(defn find-by-id [id]
+  (format-url (mc/find-one-as-map db "urls" {:_id (ObjectId. id)})))

@@ -17,11 +17,20 @@
       (-> (response/found "/")
           (assoc :flash {:url (:id (db/add-url url)) :existing false})))))
 
+(defn forward-to-url [id]
+  (println id)
+  (try
+    (if-let [url (db/find-by-id id)]
+      (response/found (:url url))
+      (response/found "/"))
+    (catch java.lang.IllegalArgumentException e (response/found "/"))))
+
 (defn about-page []
   (layout/render "about.html"))
 
 (defroutes home-routes
   (GET "/" request(home-page request))
+  (GET "/u/:id" [id] (forward-to-url id))
   (POST "/add" request (add-url request))
   (GET "/about" [] (about-page)))
 
