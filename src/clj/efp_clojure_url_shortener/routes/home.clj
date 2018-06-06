@@ -9,6 +9,9 @@
   (layout/render
     "home.html" {:flash flash}))
 
+(defn stats-page [id]
+  (layout/render "stats.html" (db/find-by-id id)))
+
 (defn add-url [request]
   (let [url (get-in request [:params :url])]
     (if-let [prev-url (db/find-url url)]
@@ -27,12 +30,9 @@
       (response/found "/"))
     (catch java.lang.IllegalArgumentException e (response/found "/"))))
 
-(defn about-page []
-  (layout/render "about.html"))
-
 (defroutes home-routes
   (GET "/" request(home-page request))
   (GET "/u/:id" [id] (forward-to-url id))
-  (POST "/add" request (add-url request))
-  (GET "/about" [] (about-page)))
+  (GET "/u/:id/stats" [id] (stats-page id))
+  (POST "/add" request (add-url request)))
 

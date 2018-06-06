@@ -19,7 +19,7 @@
     (update (rename-keys url {:_id :id}) :id #(.toString %))))
 
 (defn add-url [url]
-  (format-url (mc/insert-and-return db "urls" {:url url})))
+  (format-url (mc/insert-and-return db "urls" {:url url :visits 0})))
 
 (defn update-url [url]
   (let [id (:id url)]
