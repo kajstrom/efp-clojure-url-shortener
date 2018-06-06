@@ -21,7 +21,9 @@
   (println id)
   (try
     (if-let [url (db/find-by-id id)]
-      (response/found (:url url))
+      (do
+        (db/update-url (update url :visits inc))
+        (response/found (:url url)))
       (response/found "/"))
     (catch java.lang.IllegalArgumentException e (response/found "/"))))
 

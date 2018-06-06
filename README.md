@@ -7,7 +7,7 @@ generated using Luminus version "2.9.12.60"
 ## Todo
 
 - Listing URLs on the front page
-- Collecting stats upon visit
+- Stats page
 
 ## Prerequisites
 

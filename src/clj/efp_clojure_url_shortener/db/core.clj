@@ -21,6 +21,10 @@
 (defn add-url [url]
   (format-url (mc/insert-and-return db "urls" {:url url})))
 
+(defn update-url [url]
+  (let [id (:id url)]
+    (mc/update-by-id db "urls" (ObjectId. id) (dissoc url :id))))
+
 (defn find-url [url]
   (format-url (mc/find-one-as-map db "urls" {:url url})))
 
